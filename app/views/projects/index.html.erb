@@ -1,0 +1,55 @@
+<h1 class="text-center mt-5">List of all projects</h1>
+<div class="container">
+  <div class="flickr_pagination mt-5">
+    <%= will_paginate @projects, :container => false %>
+  </div>
+  <% @projects.each do |project|%>
+    <div class="row justify-content-md-center mt-5">
+      <center>
+        <div class="col-sm-6">
+          <div class="card text-center shadow bg-white rounded">
+            <div class="card-header bg-info text-white">
+              <% project.users.each do |user|%>
+                  <%if user.user_type=="Manager"%>
+                    by <%= user.name%>
+                  <%end%>
+              <% end%>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title text-success"><%= project.name%></h5>
+              <p class="card-text"><%= truncate(project.description ,length: 100)%></p>
+              <%= link_to "View",project_path(project),class:"btn btn-outline-success"%>
+              <%if can? :update,project%>
+                <%= link_to "Edit",edit_project_path(project),class:"btn btn-outline-info"%>
+              <%end%>
+              <%if can? :destroy,project%>
+                 <%= link_to "Delete",project_path(project),method: :delete,data: {confirm:"Are you sure to delete this project?"},class:"btn btn-outline-danger"%>
+              <%end%>
+              <hr>
+              <span class="my-2">
+                Bug count :
+                    <span class="badge badge-pill badge-danger">
+                      <%= project.bugs.count%>
+                    </span>
+
+              </span>
+            </div>
+            <div class="card-footer text-muted bg-info ">
+              <small class="text-white">
+                Created <%=time_ago_in_words(project.created_at)%> ago,
+                Upadated <%=time_ago_in_words(project.updated_at)%> ago.
+              </small>
+            </div>
+          </div>
+          <%# card-div %>
+        </div>
+        <%# col-div %>
+      </center>
+    </div>  
+    <%# row-div %>
+  <%end%>
+  <div class="flickr_pagination mt-5">
+    <%= will_paginate @projects, :container => false %>
+  </div>
+</div>
+<%# container-div %>

@@ -1,0 +1,64 @@
+<h1 class="text-center mt-5"><%=@bug.title%></h1>
+<div class="container">
+  <div class="row justify-content-md-center mt-5">
+    <center>
+      <div class="col-sm-6">
+        <div class="card-deck">
+          <div class="card shadow bg-white rounded">
+            <%= image_tag @bug.screenshot, class:"rounded my-2 mx-auto d-block" ,style:"width:250px;height:250px;border: 2px black solid;border-radius: 200px;"%>
+            <div class="card-body">
+              <h5 class="card-title">created by
+                <%@bug.users.each do |user|%>
+                  <%if user.user_type=="Qa" %>
+                    <%= user.name%>
+                  <%end%>
+                <%end%>
+              </h5>
+              <p class="card-text"><%= @bug.description %></p>
+              <% @project=Project.find(@bug.project_id)%>
+              <%= link_to 'Project details',project_path(@project),class:"btn btn-outline-dark" %>
+              <%if can? :update,@bug%>
+                <%= link_to "Edit",edit_bug_path(@bug),class:"btn btn-outline-info"%>
+              <%end%>
+              <%if can? :destroy,@bug%>
+                <%= link_to "Delete",bug_path(@bug),class:"btn btn-outline-danger",method: :delete,data: {confirm:"Are you sure to delete this bug?"}%>
+              <%end%>
+              <hr>
+              <span class="my-2 mx-2">
+                Status :
+                    <span class="badge badge-pill badge-success">
+                      <%= @bug.status%>
+                    </span>
+              </span>|
+              <span class="my-2 mx-2">
+                Type :
+                    <span class="badge badge-pill badge-info">
+                      <%= @bug.bug_type%>
+                    </span>
+              </span>|
+              <span class="my-2 mx-2">
+                Deadline :
+                    <span class="badge badge-pill badge-warning">
+                      <%= time_ago_in_words(@bug.deadline)%> left
+                    </span>
+              </span>
+              <hr>
+              Developer :
+              <%@bug.users.each do |user|%>
+                <%if user.user_type=="Developer" %>
+                  <span class="badge badge-pill badge-primary">
+                    <%= user.name%>
+                  </span>
+                <%end%>
+              <%end%>
+            </div>
+            <div class="card-footer bg-secondary">
+              <small class="text-white ">
+              Last upadated <%=time_ago_in_words(@bug.updated_at)%> ago
+              </small>
+            </div>
+        </div>
+      </div>
+    </center>
+  </div>
+</div>

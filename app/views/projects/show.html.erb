@@ -1,0 +1,85 @@
+<h1 class="text-center mt-5"><%=@project.name%></h1>
+<div class="container">
+    <div class="row justify-content-md-center mt-5">
+      <center>
+        <div class="col-sm-6">
+          <div class="card text-center shadow bg-white rounded">
+            <div class="card-header bg-info text-white">
+              <% @project.users.each do |user|%>
+                  <%if user.user_type=="Manager"%>
+                    by <%= user.name%>
+                  <%end%>
+              <% end%>
+            </div>
+            <div class="card-body">
+              <div class="card-text"><%=@project.description%></div>
+              <br>
+              <% if can? :update ,@project%>
+                <%= link_to "Edit",edit_project_path(@project),class:"btn btn-outline-info"%>
+              <%end%>
+              <%if can? :destroy,@project%>
+                <%= link_to "Delete",project_path(@project),method: :delete,data: {confirm:"Are you sure to delete this project?"},class:"btn btn-outline-danger"%>
+              <%end%>
+              <%if can? :create,Bug.new()%>
+                <%= link_to 'Create bug', new_bug_path(id: @project.id),class:"btn btn-outline-dark"%>
+              <%end%>
+              <hr>
+              <div class="my-2">
+                Developer : 
+                <%@project.users.each do |user|%>
+                  <% if user.user_type=="Developer" %>
+                    <span class="badge badge-pill badge-primary"><%=user.name%></span>
+                  <% end%>
+                <%end%>
+              </div>
+              <div class="my-2">
+                Quality assurance : 
+                <%@project.users.each do |user|%>
+                  <% if user.user_type=="Qa" %>
+                    <span class="badge badge-pill badge-success"><%=user.name%></span>
+                  <% end%>
+                <%end%>
+              </div>
+            </div>
+            <div class="card-footer text-muted bg-info ">
+              <small class="text-white">
+                Created <%=time_ago_in_words(@project.created_at)%> ago,
+                Upadated <%=time_ago_in_words(@project.updated_at)%> ago.
+              </small>
+            </div>
+          </div>
+          <table class="table mt-3 table-bordered table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Status</th>
+                <th scope="col">Type</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <%@project.bugs.each do |bug|%>
+              <tbody>
+                <tr>
+                  <td><%=bug.title%></td>
+                  <td><%=bug.status%></td>
+                  <td><%=bug.bug_type%></td>
+                  <td>
+                  <%= link_to 'View', bug_path(bug),class:"btn btn-outline-success" %>
+                  </td>
+                </tr>
+              </tbody>
+            <%end%>
+          </table>
+          <%# card-div %>
+        </div>
+        <%# col-div %>
+        <center>
+        <div class="my-4">
+            <%= link_to "[ Return to project listing ]" ,projects_path,class:"text-info" %>
+        </div>
+        </center>
+      </center>
+    </div>  
+    <%# row-div %>
+</div>
+<%# container-div %>

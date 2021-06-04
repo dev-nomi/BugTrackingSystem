@@ -1,0 +1,84 @@
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-8">
+            <%= render "shared/errors",obj: @bug%>
+            <%= form_with(model: @bug,class:"shadow-sm p-3 mb-2 bg-info rounded",local: true ) do |f| %>
+                <div class="form-group row">
+                    <%= f.label :title,class:"col-2 col-form-label text-white" %>
+                    <div class="col-10">
+                        <%= f.text_field :title,class:"form-control shadow rounded",placeholder: "Title of bug"%>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <%= f.label :description ,class:"col-2 col-form-label text-white"%>
+                    <div class="col-10">
+                        <%= f.text_area :description, rows: 5, class:"form-control shadow rounded",placeholder: "Description of bug" %>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <%= f.label :bug_type,class:"col-2 col-form-label text-white" %>
+                    <div class="col-10">
+                        <%= f.select :bug_type, ["bug", "feature"],{prompt: "Select"},{class:"form-control shadow rounded"}%>
+                    </div>
+                </div>
+                <%if @bug.bug_type==nil%>
+                    <div class="form-group row">
+                        <%= f.label :status,class:"col-2 col-form-label text-white" %>
+                        <div class="col-10">
+                            <%= f.select :status, ["new", "started"],{prompt: "Select"},{class:"form-control shadow rounded"}%>
+                        </div>
+                    </div>
+                <%end%>
+                <%if @bug.bug_type=="bug"%>
+                    <div class="form-group row">
+                        <%= f.label :status,class:"col-2 col-form-label text-white" %>
+                        <div class="col-10">
+                            <%= f.select :status, ["new", "started", "resolved"],{prompt: "Select"},{class:"form-control shadow rounded"}%>
+                        </div>
+                    </div>
+                <%end%>
+                <%if @bug.bug_type=="feature"%>
+                    <div class="form-group row">
+                        <%= f.label :status,class:"col-2 col-form-label text-white" %>
+                        <div class="col-10">
+                            <%= f.select :status, ["new", "started", "completed"],{prompt: "Select"},{class:"form-control shadow rounded"}%>
+                        </div>
+                    </div>
+                <%end%>
+                <div class="form-group row">
+                    <%= f.label :Developer ,class:"col-2 col-form-label text-white"%>
+                    <div class="col-10">
+                         <%= f.collection_select(:user_ids,User.where(user_type:"Developer").all , :id, :name_with_type,
+                        {prompt: "Make your selection from the list below (can be empty)"}, { multiple: true, size: 3 ,class: "custom-select shadow rounded" }) %>
+                    </div>   
+                </div>
+                <div class="form-group row">
+                    <%= f.label :screenshot,class:"col-2 col-form-label text-white" %>
+                    <div class="col-10">
+                        <%= f.file_field :screenshot,accept: 'image/png,image/gif',class:"shadow rounded"%>
+                        <div class="mt-3">
+                            <% if @bug.screenshot.attached? %>
+                                <%= image_tag @bug.screenshot,style:"width:200px;height:200px;border: 2px white solid" %>
+                            <%end%>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <%= f.label :deadline,class:"col-2 col-form-label text-white" %>
+                    <div class="col-10">
+                        <%= f.date_field :deadline,data: { provide: 'datepicker' } %>
+                    </div>
+                </div>
+                <div class="justify-content-center">
+                    <%= f.submit class:"btn btn-outline-light btn-lg"%>
+                </div>
+
+            <%end%>
+            <center>
+              <div class="my-4">
+                  <%= link_to "[ Return to bug listing ]" ,bugs_path,class:"text-info" %>
+              </div>
+            </center>
+        </div>
+    </div>
+</div>

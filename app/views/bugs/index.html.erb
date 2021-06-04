@@ -1,0 +1,68 @@
+<h1 class="text-center mt-5">List of all Bugs</h1>
+<div class="container">
+  <div class="flickr_pagination mt-5">
+    <%= will_paginate @bugs, :container => false %>
+  </div>
+  <% @bugs.each do |bug|%>
+    <div class="row justify-content-md-center mt-5">
+      <center>
+        <div class="col-sm-6">
+          <div class="card text-center shadow bg-white rounded">
+            <div class="card-header bg-secondary text-white">
+              <%= bug.title%>
+            </div>
+            <div class="card-body">
+              <div>
+                <% if bug.screenshot.attached? %>
+                    <%= image_tag bug.screenshot,style:"width:100px;height:100px;border: 2px black solid;border-radius: 15px;" %>
+                <%end%>
+              </div>
+              <p class="card-text"><%= truncate(bug.description ,length: 100)%></p>
+              <%= link_to "View",bug_path(bug),class:"btn btn-outline-success"%>
+              <% @project=Project.find(bug.project_id)%>
+              <%= link_to 'Project details',project_path(@project),class:"btn btn-outline-dark" %>
+              <%if can? :update,bug%>
+                <%= link_to "Edit",edit_bug_path(bug),class:"btn btn-outline-info"%>
+              <%end%>
+              <%if can? :destroy,bug%>
+                <%= link_to "Delete",bug_path(bug),class:"btn btn-outline-danger",method: :delete,data: {confirm:"Are you sure to delete this bug?"}%>
+              <%end%>
+              <hr>
+              <span class="my-2 mx-2">
+                Status :
+                    <span class="badge badge-pill badge-success">
+                      <%= bug.status%>
+                    </span>
+              </span>|
+              <span class="my-2 mx-2">
+                Type :
+                    <span class="badge badge-pill badge-info">
+                      <%= bug.bug_type%>
+                    </span>
+              </span>|
+              <span class="my-2 mx-2">
+                Deadline :
+                    <span class="badge badge-pill badge-warning">
+                      <%= time_ago_in_words(bug.deadline)%> left
+                    </span>
+              </span>
+            </div>
+            <div class="card-footer text-muted bg-secondary ">
+              <small class="text-white">
+                Created <%=time_ago_in_words(bug.created_at)%> ago,
+                Upadated <%=time_ago_in_words(bug.updated_at)%> ago.
+              </small>
+            </div>
+          </div>
+          <%# card-div %>
+        </div>
+        <%# col-div %>
+      </center>
+    </div>  
+    <%# row-div %>
+  <%end%>
+  <div class="flickr_pagination mt-5">
+    <%= will_paginate @projects, :container => false %>
+  </div>
+</div>
+<%# container-div %>
