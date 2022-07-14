@@ -3,7 +3,7 @@
 <div class="container">
   <div class="row justify-content-center mt-5">
     <div class="col-6">
-      <%= form_for(resource, as: resource_name,url: session_path(resource_name)) do |f| %>
+      <%= form_for(resource, as: resource_name,url: session_path(resource_name), html: {class:"shadow-sm p-3 mb-2 bg-info rounded"}) do |f| %>
       <div class="field form-group row">
         <%= f.label :email,class:"col-2 col-form-label " %>
         <div class="col-10">
@@ -26,7 +26,7 @@
       <% end %>
 
       <div class="actions">
-        <%= f.submit "Sign in",class:"btn btn-outline-secondary" %>
+        <%= f.submit "Sign in",class:"btn btn-outline-light btn-lg" %>
       </div>
     <% end %>
     <br>
