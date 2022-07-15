@@ -39,10 +39,10 @@
         <%if user_signed_in?%>
           <li class="nav-item dropdown">
 
-          <a class="btn btn-dark dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="btn btn-dark dropdown-toggle" href="#" id="signoutLabel" role="button" data-toggle="dropdown" aria-expanded="false">
             [<%=current_user.user_type%>]<%= current_user.name %>
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <ul class="dropdown-menu" aria-labelledby="signoutLabel">
             <li><%= link_to 'Sign out', destroy_user_session_path,class:"dropdown-item" ,method: :delete%></li>
           </ul>
           </li>
