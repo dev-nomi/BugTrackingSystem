@@ -1,11 +1,11 @@
-<h1 class="text-center mt-5">Sign in</h1>
+<h1 class="text-center mt-5">Sign In</h1>
 
 <div class="container">
   <div class="row justify-content-center mt-5">
     <div class="col-6">
       <%= form_for(resource, as: resource_name,url: session_path(resource_name), html: {class:"shadow-sm p-3 mb-2 bg-info rounded"}) do |f| %>
       <div class="field form-group row">
-        <%= f.label :email,class:"col-2 col-form-label " %>
+        <%= f.label :email,class:"col-2 col-form-label" %>
         <div class="col-10">
           <%= f.email_field :email, class:"form-control shadow rounded",placeholder: "Enter email",autofocus: true, autocomplete: "email" %>
         </div>
@@ -30,7 +30,6 @@
       </div>
     <% end %>
     <br>
-    <%= render "devise/shared/links" %>
 
     </div><%# col-container %>
   </div><%# row-container %>
